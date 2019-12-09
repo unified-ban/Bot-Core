@@ -84,6 +84,7 @@ def init(update, context, edit=False):
 			lang_buttons = []
 			lang_buttons.append(InlineKeyboardButton('it_IT', callback_data='SetLang_it_IT'))
 			lang_buttons.append(InlineKeyboardButton('en_US', callback_data='SetLang_en_US'))
+			lang_buttons.append(InlineKeyboardButton('pr_PR', callback_data='SetLang_pr_PR'))
 			lang_markup = h_keyboard.build(lang_buttons, n_cols=2)
 			return bot.edit_message_text(lang.configure_lang % user_id, chat_id, update.message.message_id, reply_markup=lang_markup, parse_mode=ParseMode.HTML)
 		elif edit == 'ConfReportChannel':
