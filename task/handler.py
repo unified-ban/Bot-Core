@@ -20,19 +20,18 @@ lang = Params.settings.language
 @bypass.has_privileges
 def load_tasks(update, context, group, lang):
 	try:
-		bot = context.bot
-
-		language.init(update, context, group, lang)
+		antispam.init(update, context, group, lang)
+		welcome.init(update, context, group, lang)
 		anticlone.init(update, context, group, lang)
 		antiflood.init(update, context, group, lang)
 		antiscam.init(update, context, group, lang)
-		antispam.init(update, context, group, lang)
 		blacklist.init(update, context, group, lang)
 		hammer.init(update, context, group, lang)
 		offensive.init(update, context, group, lang)
-		welcome.init(update, context, group, lang)
+		language.init(update, context, group, lang)
 	except Exception as e:
 		logger.exception(e)
+		pass
 	
 def init(update, context):
 	try:
@@ -49,10 +48,12 @@ def init(update, context):
 		registration.init(update, context, group, lang)
 		notes.init(update, context)
 		
+		reportchannel.init(update, context, lang)
+		
 		if group != False:
-			reportchannel.init(update, context, lang)
 			support.init(update, context, lang)
 			
 			load_tasks(update, context, group, lang)
 	except Exception as e:
 		logger.exception(e)
+		pass

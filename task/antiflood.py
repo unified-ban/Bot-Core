@@ -6,8 +6,9 @@
 
 import datetime
 import Params
-from telegram import InlineKeyboardButton, ParseMode
+from telegram import InlineKeyboardButton, ParseMode, ChatPermissions
 from Utils.decorators import permissions, message
+from telegram.ext.dispatcher import run_async
 from Utils.helpers import h_scam, h_message, h_user, h_keyboard, h_group
 from Utils import logger, sql
 import time
@@ -18,6 +19,7 @@ Choose your preferred language in Params.settings.
 '''
 lang = Params.settings.language
 
+@run_async
 def init(update, context, group, lang):
 	try:
 		bot = context.bot
@@ -34,9 +36,17 @@ def init(update, context, group, lang):
 			
 			if check_flood == 3:
 				bot.restrict_chat_member(
-					message.chat_id, 
+					message.chat_id,
 					user.id,
-					datetime.datetime.now() + datetime.timedelta(minutes=10)
+					ChatPermissions(
+						can_send_messages=False, 
+						can_send_media_messages=False, 
+						can_send_polls=False,
+						can_send_other_messages=False, 
+						can_add_web_page_previews=False,
+						can_invite_users=False
+					),
+					until_date=datetime.datetime.now() + datetime.timedelta(minutes=10)
 				)
 				
 				buttons = []
@@ -76,10 +86,14 @@ def update(update, context):
 				bot.restrict_chat_member(
 					query.message.chat_id, 
 					user_id, 
-					can_send_messages=True, 
-					can_send_media_messages=True, 
-					can_send_other_messages=True, 
-					can_add_web_page_previews=True
+					ChatPermissions(
+						can_send_messages=True, 
+						can_send_media_messages=True, 
+						can_send_polls=True,
+						can_send_other_messages=True, 
+						can_add_web_page_previews=True,
+						can_invite_users=True
+					),
 				)
 				output = bot.edit_message_text(lang.flood_unlimited, query.message.chat_id, query.message.message_id)
 				return h_message.delete(output, context, 5)

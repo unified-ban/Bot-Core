@@ -32,8 +32,14 @@ def init(update, context, group, lang):
 						# first time registration
 						db = sql.Database(update)
 						db.insert_groups()
+
+						try:
+							chat_title = message.chat.title
+						except:
+							chat_title = "Unknow"
+						
 						return logger.report(update, context, lang.report_registration % (
-								message.chat.title,
+								chat_title,
 								chat_id
 							)
 						)

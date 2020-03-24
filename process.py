@@ -87,7 +87,6 @@ class UnifiedBanDaemon(Daemon):
       Privileged operator functions can be used by operators during maintenance.
       '''
       dp.add_handler(CommandHandler("status", Core.operator.status.init))
-      dp.add_handler(CommandHandler("newlogic", Core.operator.newlogic.init))
       dp.add_handler(CommandHandler("disable", Core.operator.disable.init))
       dp.add_handler(CommandHandler("white", Core.operator.white.init))
       
@@ -101,6 +100,7 @@ class UnifiedBanDaemon(Daemon):
       dp.add_handler(CommandHandler("leave", Core.operator.leave.init))
       dp.add_handler(CommandHandler("sync", Core.operator.sync.init))
       dp.add_handler(CommandHandler("black", Core.operator.black.init))
+      dp.add_handler(CommandHandler("bb", Core.operator.black.instant))
       dp.add_handler(CommandHandler("id", Core.operator.identity.init))
       
       

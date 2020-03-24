@@ -5,7 +5,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import Params
-from telegram import InlineKeyboardButton, ParseMode
+from telegram import InlineKeyboardButton, ParseMode, ChatPermissions
 from Utils.decorators import permissions, message, chat
 from Utils.helpers import h_chat, h_keyboard, h_user, h_group, h_sql
 from Utils import logger, sql
@@ -85,6 +85,7 @@ def init(update, context, edit=False):
 			lang_buttons.append(InlineKeyboardButton('it_IT', callback_data='SetLang_it_IT'))
 			lang_buttons.append(InlineKeyboardButton('en_US', callback_data='SetLang_en_US'))
 			lang_buttons.append(InlineKeyboardButton('pr_PR', callback_data='SetLang_pr_PR'))
+
 			lang_markup = h_keyboard.build(lang_buttons, n_cols=2)
 			return bot.edit_message_text(lang.configure_lang % user_id, chat_id, update.message.message_id, reply_markup=lang_markup, parse_mode=ParseMode.HTML)
 		elif edit == 'ConfReportChannel':
@@ -186,17 +187,45 @@ def update(update, context):
 					else:
 						# Hammer
 						if query.data.startswith('ConfHammer'):
+							bot.set_chat_permissions(
+								chat_id,
+								ChatPermissions(
+									can_send_messages=True, 
+									can_send_media_messages=False, 
+									can_send_polls=False,
+									can_send_other_messages=False, 
+									can_add_web_page_previews=False,
+									can_invite_users=False
+								)
+							)
 							if query.data == 'ConfHammer0':
 								# open group
+								bot.set_chat_permissions(
+									chat_id,
+									ChatPermissions(
+										can_send_messages=True, 
+										can_send_media_messages=True, 
+										can_send_polls=True,
+										can_send_other_messages=True, 
+										can_add_web_page_previews=True,
+										can_invite_users=True
+									)
+								)
 								db = sql.Database(query); hammer = db.get_hammer(chat_id)
 								db = sql.Database(query); report_channel = db.get_groups()[19]
 								if len(hammer) > 0:
 									hammer_list = ""
 									for h in hammer:
-										hammer_list = "\n" + hammer_list + "- " + h[0]
-									bot.send_message(report_channel, lang.report_hammer % hammer_list, parse_mode=ParseMode.HTML)
+										hammer_list = hammer_list + "- " + h[0] + "\n"
+									try:
+										bot.send_message(report_channel, lang.report_hammer % hammer_list, parse_mode=ParseMode.HTML)
+									except:
+										bot.send_message(Params.telegram.ReportChannel.id, lang.report_hammer % hammer_list, parse_mode=ParseMode.HTML)
 								else:
-									bot.send_message(report_channel, lang.report_hammer_empty, parse_mode=ParseMode.HTML)
+									try:
+										bot.send_message(report_channel, lang.report_hammer_empty, parse_mode=ParseMode.HTML)
+									except:
+										bot.send_message(Params.telegram.ReportChannel.id, lang.report_hammer_empty, parse_mode=ParseMode.HTML)
 								db = sql.Database(query); db.delete_hammer(chat_id)
 							query.data = query.data[:-1]
 							db = sql.Database(query); db.update_groups('ConfWelcome', 'IF(ConfWelcome = 0, 1, 0)', switch=True)

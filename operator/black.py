@@ -96,3 +96,30 @@ def update(update, context):
 				))
 	except Exception as e:
 		logger.exception(e)
+
+'''
+Instant add user to Blacklist
+'''
+@permissions.is_operator('operator_black_instant')
+@message.delete_input
+def instant(update, context):
+	try:
+		bot = context.bot
+		db = sql.Database(update)
+
+		chat_id = update.message.chat_id
+		operator_id = update.message.from_user.id
+		motivation = "Scam"
+		user_id = update.message.text[7:]
+		if user_id == "":
+			return False
+
+		db.insert_blacklist(user_id, motivation)
+		return logger.report(update, context, lang.report_black % (
+			operator_id,
+			user_id,
+			chat_id,
+			motivation
+		))
+	except Exception as e:
+		logger.exception(e)

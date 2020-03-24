@@ -23,11 +23,16 @@ Remove bot from chat
 def init(update, context):
 	try:
 		bot = context.bot
-
-		bot.leaveChat(update.message.chat_id)
+		
+		if update.message.text[7:] != "":
+			chat_id = update.message.text[7:]
+		else:
+			chat_id = update.message.chat_id
+		
+		bot.leaveChat(chat_id)
 		return logger.report(update, context, lang.report_leave % (
 				update.message.from_user.name,
-				update.message.chat_id
+				chat_id
 			)
 		)
 	except Exception as e:

@@ -9,6 +9,7 @@ import Params
 from Utils.decorators import permissions, message
 from Utils.helpers import h_scam, h_message, h_user
 from Utils import logger, sql
+from telegram import ChatPermissions
 
 
 def init(update, context, group, lang):
@@ -23,11 +24,18 @@ def init(update, context, group, lang):
 			if row == False:
 				return False
 			else:
-				h_message.delete(update, context)
 				bot.restrict_chat_member(
-					message.chat_id, 
+					message.chat_id,
 					user.id,
-					datetime.datetime.now() + datetime.timedelta(days=1)
+					ChatPermissions(
+						can_send_messages=False, 
+						can_send_media_messages=False, 
+						can_send_polls=False,
+						can_send_other_messages=False, 
+						can_add_web_page_previews=False,
+						can_invite_users=False
+					),
+					until_date=datetime.datetime.now() + datetime.timedelta(days=1)
 				)
 				bot.send_message(message.chat_id, lang.scam_block % 
 						h_user.get_user_name(update.message.from_user)

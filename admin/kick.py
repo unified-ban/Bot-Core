@@ -8,6 +8,7 @@ from Utils.decorators import permissions, message
 from Utils.helpers import h_message, h_group
 from Utils import logger, sql
 import Params
+import datetime
 
 '''
 Load language from settings.
@@ -38,7 +39,14 @@ def init(update, context):
 			'''
 			user = message.reply_to_message.from_user
 			
-			bot.kick_chat_member(message.chat_id, user.id, 0.30)
+			bot.kick_chat_member(
+				message.chat_id, 
+				user.id
+			)
+			bot.unban_chat_member(
+				message.chat_id, 
+				user.id
+			)
 			output = bot.send_message(chat_id, lang.kick % user.name)
 			db = sql.Database(update); db.insert_chatoperationslog("kick:%s" % user.id)
 			return h_message.delete(output, context, 5)

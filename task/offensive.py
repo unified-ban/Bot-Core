@@ -8,7 +8,6 @@ import Params
 from Utils.helpers import h_message, h_group
 from Utils import logger, sql
 
-
 def init(update, context, group, lang):
 	try:
 		bot = context.bot

@@ -32,6 +32,7 @@ def init(update, context, group, lang):
 			for l in logics:
 				if l[2] == "containsWords":
 					if h_spam.logic_containsWords(update, l[3]):
+						logger.log.info("aa")
 						h_spam.perform_group_spam_action(update, context, actions)
 						db = sql.Database(update); db.insert_blockedcontent("spamlogic:%s" % l[1])
 						return logger.report(update, context, lang.report_spam_logic % (

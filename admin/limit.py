@@ -9,6 +9,7 @@ from Utils.decorators import permissions, message
 from Utils.helpers import h_message, h_group
 from Utils import logger, sql
 import datetime
+from telegram import ChatPermissions
 
 '''
 Load language from settings.
@@ -39,9 +40,17 @@ def init(update, context, unlimit=False):
 				limit user (unlimit = False)
 				'''
 				bot.restrict_chat_member(
-					message.chat_id, 
+					message.chat_id,
 					user.id,
-					datetime.datetime.now() + datetime.timedelta(days=1)
+					ChatPermissions(
+						can_send_messages=False, 
+						can_send_media_messages=False, 
+						can_send_polls=False,
+						can_send_other_messages=False, 
+						can_add_web_page_previews=False,
+						can_invite_users=False
+					),
+					until_date=datetime.datetime.now() + datetime.timedelta(days=1)
 				)
 				output = bot.send_message(chat_id, lang.limit % user.name)
 				db = sql.Database(update); db.insert_chatoperationslog("limit:%s" % user.id)
@@ -50,12 +59,17 @@ def init(update, context, unlimit=False):
 				unlimit user (unlimit = True)
 				'''
 				bot.restrict_chat_member(
-					message.chat_id, 
-					user.id, 
-					can_send_messages=True, 
-					can_send_media_messages=True, 
-					can_send_other_messages=True, 
-					can_add_web_page_previews=True
+					message.chat_id,
+					user.id,
+					ChatPermissions(
+						can_send_messages=True, 
+						can_send_media_messages=True, 
+						can_send_polls=True,
+						can_send_other_messages=True, 
+						can_add_web_page_previews=True,
+						can_invite_users=True
+					),
+					until_date=datetime.datetime.now() + datetime.timedelta(seconds=30)
 				)
 				output = bot.send_message(chat_id, lang.unlimit % user.name)
 				db = sql.Database(update); db.insert_chatoperationslog("unlimit:%s" % user.id)

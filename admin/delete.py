@@ -36,7 +36,7 @@ def init(update, context):
 			'''
 			num = int(float(num))
 			if num > 20:
-				bot_send_message(chat_id, lang.delete_max)
+				bot.send_message(chat_id, lang.delete_max)
 			else:
 				for i in range(0, num):
 					counter+=1
