@@ -56,7 +56,6 @@ def init(update, context, group, lang):
 								update.message.from_user.id
 							)
 						)
-			pass
 			
 		'''
 		Telegram links

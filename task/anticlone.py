@@ -13,8 +13,7 @@ This feature is not available in this version.
 '''
 def init(update, context, group, lang):
 	try:
-		bot = context.bot
-		
+		#bot = context.bot
 		pass
 	except Exception as e:
 		logger.exception(e)

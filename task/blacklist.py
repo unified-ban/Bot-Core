@@ -23,7 +23,7 @@ def init(update, context, group, lang):
 			if user is True:
 				bot.kick_chat_member(chat_id, user_obj.id)
 				bot.deleteMessage(chat_id, message.message_id)
-				db = sql.Database(update); db.insert_blockedcontent("blacklist")
+				# db = sql.Database(update); db.insert_blockedcontent("blacklist")
 				return logger.report(update, context, lang.report_blacklist % (
 						update.message.chat.title,
 						'Blacklisted user',

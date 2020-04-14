@@ -50,5 +50,4 @@ def init(update, context, group, lang):
 							return bot.leaveChat(chat_id)
 		return False
 	except Exception as e:
-		#logger.exception(e)
-		pass
+		logger.exception(e)

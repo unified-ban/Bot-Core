@@ -52,7 +52,7 @@ def init(update, context):
 			'''
 			Delete only one message
 			'''
-			message = update.message.reply_to_message
+			#message = update.message.reply_to_message
 			return bot.deleteMessage(chat_id, message_id)
 	except Exception as e:
 		logger.exception(e)

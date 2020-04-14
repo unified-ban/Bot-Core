@@ -29,7 +29,7 @@ class UnifiedBanDaemon(Daemon):
   def run(self):
     try:
       pass
-    except Exception as e:
+    except:
       logger.log.exception(lang.unhandled)
     while True:
       updater = Updater(Params.telegram.Bot.token, use_context=True)
@@ -87,6 +87,7 @@ class UnifiedBanDaemon(Daemon):
       Privileged operator functions can be used by operators during maintenance.
       '''
       dp.add_handler(CommandHandler("status", Core.operator.status.init))
+      dp.add_handler(CommandHandler("newlogic", Core.operator.newlogic.init))
       dp.add_handler(CommandHandler("disable", Core.operator.disable.init))
       dp.add_handler(CommandHandler("white", Core.operator.white.init))
       

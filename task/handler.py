@@ -22,16 +22,15 @@ def load_tasks(update, context, group, lang):
 	try:
 		antispam.init(update, context, group, lang)
 		welcome.init(update, context, group, lang)
-		anticlone.init(update, context, group, lang)
+		#anticlone.init(update, context, group, lang)
 		antiflood.init(update, context, group, lang)
 		antiscam.init(update, context, group, lang)
 		blacklist.init(update, context, group, lang)
-		hammer.init(update, context, group, lang)
-		offensive.init(update, context, group, lang)
+		#hammer.init(update, context, group, lang)
+		#offensive.init(update, context, group, lang)
 		language.init(update, context, group, lang)
 	except Exception as e:
 		logger.exception(e)
-		pass
 	
 def init(update, context):
 	try:
@@ -56,4 +55,3 @@ def init(update, context):
 			load_tasks(update, context, group, lang)
 	except Exception as e:
 		logger.exception(e)
-		pass

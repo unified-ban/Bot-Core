@@ -12,7 +12,6 @@ from Utils import logger, sql
 from Utils.helpers import h_user, h_variables, h_keyboard, h_message
 import datetime
 
-@run_async
 def init(update, context, group, lang):
 	try:
 		bot = context.bot
@@ -91,8 +90,7 @@ def init(update, context, group, lang):
 		else:
 			return False
 	except Exception as e:
-		#logger.exception(e)
-		pass
+		logger.exception(e)
 
 '''
 Update captcha

@@ -19,7 +19,6 @@ Choose your preferred language in Params.settings.
 '''
 lang = Params.settings.language
 
-@run_async
 def init(update, context, group, lang):
 	try:
 		bot = context.bot

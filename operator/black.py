@@ -86,8 +86,8 @@ def update(update, context):
 					), chat_id, query.message.message_id, parse_mode=ParseMode.HTML)
 				try:
 					bot.kick_chat_member(chat_id, user_id)
-				except:
-					pass
+				except Exception as e:
+					logger.exception(e)
 				return logger.report(query, context, lang.report_black % (
 					operator_id,
 					user_id,
