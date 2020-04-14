@@ -1,0 +1,2 @@
+# Bot-Core
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/35ce46ef8b8d4185b6efa221ae1975ac)](https://app.codacy.com/gh/unified-ban/Bot-Core?utm_source=github.com&utm_medium=referral&utm_content=unified-ban/Bot-Core&utm_campaign=Badge_Grade_Dashboard)
